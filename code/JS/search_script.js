@@ -48,4 +48,21 @@ document.addEventListener('DOMContentLoaded', ()=> {
         console.error('Fout bij het ophalen van gegevens:' , error);
         propertyListContainer.innerHTML = '<p>Er is een technische fout opgetreden bij het ophalen van de zoekresultaten.</p>';   
     }
-});
+};
+//theard page 
+const attachEventListeners = () => {
+    propertyListContainer.addEventListener('click', (event) => {
+        if (event.target.classList.contains('meer-info-btn')) {
+            const card = event.target.closest('.property-card');
+
+            // To be sure the card is not null befor the dataset read...
+            if(card) {
+                const houseId = card.dataset.id;
+                window.location.href =`detail_page.html?id=${houseId}`;
+            }
+        }
+    });
+};
+fetchFilteredHouses();
+    });
+  
