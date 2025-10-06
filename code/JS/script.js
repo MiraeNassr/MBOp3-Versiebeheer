@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const propertyListContainer = document.querySelector('.property-list');
+    const searchFOrm = document.getElementById('search-form');
 
-    const fetchHouses = async () => {
+    const fetchFeaturedHouses = async () => {
         try {
             const response = await fetch('php/database.php');
             
@@ -11,7 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const houses = await response.json();
+            propertyListContainer.innerHTML = '';
 
+            if(houses.length === 0) {
+                propertyListContainer.innerHTML = '<p>Excuses, er zijn momenteel geen woningen gevonden om aan te bevelen.</p>';
+                 return;
+            }
+ 
             houses.forEach(house => {
                 const cardHTML = `
                 <div class ="property-card" data-id="${house.id}">
@@ -30,22 +37,28 @@ document.addEventListener('DOMContentLoaded', () => {
             attachEventListeners();
             
         }catch (error) {
-          //  console.error('Error fetching data:'+error);
+        console.error('Error fetching data:' , error);
         propertyListContainer.innerHTML = '<p>Excuses, er zijn momenteel geen woningen beschikbaar. Probeer het later opnieuw.</p>';
         }
     };
 
-    const attachEventListeners = (event) => {
+    const attachEventListeners = () => {
         propertyListContainer.addEventListener('click', handleCardClick);
     };
 
     const handleCardClick = (event) => {
         if(event.target.classList.contains('meer-info-btn')) {
             const card = event.target.closest('.property-card');
-            const houseId = card.dataset.id;
-
-            alert(`U heeft op Woning ID: ${houseId} geklikt. Dit is de volgende stap!`);
+            if(card) {
+               const houseId = card.dataset.id;
+                alert(`U heeft op Woning ID: ${houseId} geklikt.`);
+            }       
         }
     };
-    fetchHouses();    
+    if(searchFOrm) {
+        searchFOrm.addEventListener('submit', (event) => {
+
+        });
+    }
+    fetchFeaturedHouses();    
     });
