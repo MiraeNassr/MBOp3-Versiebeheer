@@ -3,7 +3,10 @@ include 'db-connect.php';
 
 header('Content-Type: application/json');
 
-$sql = "SELECT id, price, description, location, image FROM houses";
+$sql = "SELECT id, price, description, location, image 
+        FROM houses 
+        WHERE status = 1
+        LIMIT 3";
 $result = $conn->query($sql);
 
 $houses = [];
