@@ -32,7 +32,20 @@ document.addEventListener('DOMContentLoaded', ()=> {
                  propertyListContainer.innerHTML = `<p>Er zijn geen woningen gevonden voor de postcode: <strong>${postcode}</strong>.</p>`;
             return;
         }
-
+ //HTML build 
+        houses.forEach(house => {
+            const cardHTML = `<div class ="property-card" data-id="${house.id}">
+                    <img src="${house.image}" alt="Huis in ${house.location}">
+                    <h3 class="property-price">${house.price}</h3>
+                    <p class="property-desc">${house.description}</p>
+                    <p class="property-location">${house.location}</p>
+                    <button class="meer-info-btn">Meer info</button> 
+                </div>`;
+                propertyListContainer.innerHTML += cardHTML;
+        });
+        attachEventListeners();
+    }catch (error) {
+        console.error('Fout bij het ophalen van gegevens:' , error);
+        propertyListContainer.innerHTML = '<p>Er is een technische fout opgetreden bij het ophalen van de zoekresultaten.</p>';   
     }
-
-)};
+});
